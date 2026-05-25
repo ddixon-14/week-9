@@ -1,6 +1,6 @@
 import pandas as pd
 
-
+#Turn into a class 
 def GroupEstimate(object):
     def __init__(self, estimate):
         self.estimate = estimate
@@ -18,7 +18,14 @@ def GroupEstimate(object):
     #Takes an array of obv. corresponding to columns in X_,
     # determines appropriate groups, and returns est. for y 
     # return Nan for any missing combinations of data
-    # print missing no. of groups 
+    # print missing no. of groups
+    # 1. loc to select data, search for existing matches
+    # 2. Take avg of existing matches
+    # 3. count missing combinations 
+        predictions = []
+        missing_combo = 0
+        for i in X_:
+            self.table.loc[i]
 
         return None
     
@@ -28,7 +35,7 @@ DF based on possible existing pokemon type combinations and likelihood of captur
 
 coffee_reviews = {
     "loc_country": ["Guatemala", "Japan", "Fiji", "Fiji", "Japan", "Japan", "Fiji", "Guatemala"],
-    "roast": ["Dark", "Medium", "Medium", "Dark", "Dark", "Medium", "Medium", "Dark"],
+    "roast": ["Dark", "Medium", "Light", "Dark", "Medium", "Medium", "Light", "Dark"],
     "rating": [17.22, 84.34, 39.01, 52.01, 71.89, 25.57, 96.18]
 }
 
@@ -42,6 +49,7 @@ gm.fit(X,y)
 
 X_ = [["Japan", "Medium"],
       ["Guatemala", "Dark"], 
-      ["Fiji", "Light"]] # no light Fiji
+      ["Fiji", "Dark"]] # no dark Fiji
 
 gm.predict(X_)
+
