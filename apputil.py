@@ -1,18 +1,26 @@
 import pandas as pd
 
 #Turn into a class 
-def GroupEstimate(object):
+class GroupEstimate(object):
     def __init__(self, estimate):
-        self.estimate = estimate
+        if estimate not in ('mean', 'median'):
+            raise ValueError("Estimate must only be 'mean' or 'median'")
+        self.estimate = estimate 
     
     def fit(self, X, y):
     #X- DataFrame of categorical data, Y- 1-D array of continuous values, there should be no miss. vals.
     #1. Group df by columns in X, abstracted
     #2. for.ea. calculate mean or med. of y, depending on estimate arg
-        if GroupEstimate(estimate='mean'):
-            return df_coffee.groupby(X.columns).agg(['mean'])
+        df = X.copy()
+        df["y"] = y
+
+        if self.estimate == 'mean':
+            self.table = df.groupby(list(X.columns))["y"].mean()
         else:
-            return df_coffee.groupby(X.columns).agg(['median'])
+            self.table = df.groupby(list(X.columns))["y"].median()
+        
+        self.columns = list(X.columns)
+        return self
 
     def predict(self, X_):
     #Takes an array of obv. corresponding to columns in X_,
@@ -28,11 +36,11 @@ def GroupEstimate(object):
             try:
                 predictions.append(self.table.loc[i]) #self is pandas series, therefore, loc works
             except KeyError: #counts no. of missing combos and states which are missing
-                print("Missing combination: {i}")
+                print(f"Missing combination: {i}")
                 predictions.append("NaN")
                 missing_combo += 1
         if missing_combo > 0:
-            print("Total missing groups: {missing_combo}")
+            print(f"Total missing groups: {missing_combo}")
         return predictions
 
         return None
