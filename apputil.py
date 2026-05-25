@@ -10,9 +10,9 @@ def GroupEstimate(object):
     #1. Group df by columns in X, abstracted
     #2. for.ea. calculate mean or med. of y, depending on estimate arg
         if GroupEstimate(estimate='mean'):
-            return coffee_reviews.groupby(X).agg(['mean'])
+            return coffee_reviews.groupby(X.columns).agg('rating', 'mean')
         else:
-            return coffee_reviews.groupby(X).agg(['median'])
+            return coffee_reviews.groupby(X.columns).agg(['median'])
 
     def predict(self, X):
     #Takes an array of obv. corresponding to columns in X_,
@@ -27,7 +27,7 @@ DF based on possible existing pokemon type combinations and likelihood of captur
 
 coffee_reviews = {
     "loc_country": ["Guatemala", "Japan", "Fiji", "Fiji", "Japan", "Japan", "Fiji", "Guatemala"],
-    "roast": ["Light", "Medium", "Medium", "Dark", "Dark", "Light", "Medium"],
+    "roast": ["Dark", "Medium", "Medium", "Dark", "Dark", "Light", "Medium", "Dark"],
     "rating": [17.22, 84.34, 39.01, 52.01, 71.89, 25.57, 96.18]
 }
 
@@ -40,7 +40,7 @@ gm = GroupEstimate(estimate='mean')
 gm.fit(X,y)
 
 X_ = [["Japan", "Medium"],
-      ["Guatemala", "Dark"],
-      ["Fiji", "Light"]] #There should be no dark guatemala
+      ["Guatemala", "Dark"], #There should be no dark guatemala
+      ["Fiji", "Light"]] 
 
 gm.predict(X_)
