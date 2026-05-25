@@ -9,13 +9,10 @@ def GroupEstimate(object):
     #X- DataFrame of categorical data, Y- 1-D array of continuous values, there should be no miss. vals.
     #1. Group df by columns in X, abstracted
     #2. for.ea. calculate mean or med. of y, depending on estimate arg
-        coffee_reviews.groupby(X).agg(
-
-        )
-        
-            
-
-        return None
+        if GroupEstimate(estimate='mean'):
+            return coffee_reviews.groupby(X).agg(['mean'])
+        else:
+            return coffee_reviews.groupby(X).agg(['median'])
 
     def predict(self, X):
     #Takes an array of obv. corresponding to columns in X_,
@@ -33,6 +30,8 @@ coffee_reviews = {
     "roast": ["Light", "Medium", "Medium", "Dark", "Dark", "Light", "Medium"],
     "rating": [17.22, 84.34, 39.01, 52.01, 71.89, 25.57, 96.18]
 }
+
+df = pd.DataFrame(coffee_reviews)
 
 X = coffee_reviews[["loc_country", "roast"]]
 y = coffee_reviews["rating"]
