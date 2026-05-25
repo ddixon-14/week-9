@@ -7,18 +7,41 @@ def GroupEstimate(object):
     
     def fit(self, X, y):
     #X- DataFrame of categorical data, Y- 1-D array of continuous values, there should be no miss. vals.
+    #1. Group df by columns in X, abstracted
+    #2. for.ea. calculate mean or med. of y, depending on estimate arg
+        coffee_reviews.groupby(X).agg(
+
+        )
+        
+            
 
         return None
 
     def predict(self, X):
+    #Takes an array of obv. corresponding to columns in X_,
+    # determines appropriate groups, and returns est. for y 
+    # return Nan for any missing combinations of data
+    # print missing no. of groups 
         return None
     
 """Initialized df for testing 
-DF based on possible existing pokemon type combinations and win percentage in battle. 
+DF based on possible existing pokemon type combinations and likelihood of capture in the wild. 
 """
-pokemon_df = {
-    "pokemon_name": ["Volcanion", "Ludicolo", "Sceptile", "Bewear", "Zebstrika", "Houndoom", "Druddigon", "Fezandipiti", "Gallade"],
-    "type1": ["fire", "water", "grass", "normal", "electric", "dark", "dragon", "fairy", "fighting"],
-    "type2": ["water", "grass", None, "fighting", None, "fire", None, "poison", "psychic"],
-    "win_percentage": [17.22, 84.34, 39.01, 52.01, 71.89, 25.57, 96.10, 41.72, 63.68]
+
+coffee_reviews = {
+    "loc_country": ["Guatemala", "Japan", "Fiji", "Fiji", "Japan", "Japan", "Fiji", "Guatemala"],
+    "roast": ["Light", "Medium", "Medium", "Dark", "Dark", "Light", "Medium"],
+    "rating": [17.22, 84.34, 39.01, 52.01, 71.89, 25.57, 96.18]
 }
+
+X = coffee_reviews[["loc_country", "roast"]]
+y = coffee_reviews["rating"]
+
+gm = GroupEstimate(estimate='mean')
+gm.fit(X,y)
+
+X_ = [["Japan", "Medium"],
+      ["Guatemala", "Dark"],
+      ["Fiji", "Light"]] #There should be no dark guatemala
+
+gm.predict(X_)
