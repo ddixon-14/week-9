@@ -14,12 +14,10 @@ class GroupEstimate(object):
         df = X.copy()
         df["y"] = y
 
-        if self.estimate == 'mean':
-            self.table = df.groupby(list(X.columns))["y"].mean()
-        else:
-            self.table = df.groupby(list(X.columns))["y"].median()
-        
-        self.columns = list(X.columns)
+        group_cols = list(X.columns)
+        self.table = df.groupby(group_cols)["y"].agg(self.estimate)
+        print(self.table)
+        self.columns = group_cols
         return self
 
     def predict(self, X_):
@@ -37,13 +35,11 @@ class GroupEstimate(object):
                 predictions.append(self.table.loc[i]) #self is pandas series, therefore, loc works
             except KeyError: #counts no. of missing combos and states which are missing
                 print(f"Missing combination: {i}")
-                predictions.append("NaN")
+                predictions.append(float("NaN"))
                 missing_combo += 1
         if missing_combo > 0:
             print(f"Total missing groups: {missing_combo}")
         return predictions
-
-        return None
     
 """Initialized df for testing 
 DF based on possible existing pokemon type combinations and likelihood of capture in the wild. 
@@ -67,5 +63,5 @@ X_ = [["Japan", "Medium"],
       ["Guatemala", "Dark"], 
       ["Fiji", "Dark"]] # no dark Fiji
 
-gm.predict(X_)
+print(gm.predict(X_))
 
